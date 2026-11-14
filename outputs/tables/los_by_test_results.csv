@@ -1,0 +1,4 @@
+test_results,n_admissions,alos_mean,los_median,los_iqr,los_std,bootstrap_ci_95_lower,bootstrap_ci_95_upper
+Abnormal,18437,15.51,15.0,15.0,8.64,15.39,15.63
+Inconclusive,18198,15.45,15.0,15.0,8.69,15.32,15.58
+Normal,18331,15.54,16.0,15.0,8.65,15.41,15.66

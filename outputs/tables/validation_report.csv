@@ -1,0 +1,16 @@
+assertion_name,condition_checked,records_tested,violations_count,status,details
+no_nulls_in_key_fields,key_fields.isnull().sum() == 0,54966,0,PASS,All records satisfy assertion.
+chronological_order,discharge_date >= admission_date,54966,0,PASS,All records satisfy assertion.
+non_negative_los,los_days >= 0,54966,0,PASS,All records satisfy assertion.
+admission_id_uniqueness,admission_id.nunique() == len(df),54966,0,PASS,All records satisfy assertion.
+gender_categories,"gender in {'Male', 'Female'}",54966,0,PASS,All records satisfy assertion.
+blood_type_categories,blood_type in valid 8 ABO/Rh types,54966,0,PASS,All records satisfy assertion.
+medical_condition_categories,medical_condition in 6 primary conditions,54966,0,PASS,All records satisfy assertion.
+insurance_provider_categories,insurance_provider in 5 major payers,54966,0,PASS,All records satisfy assertion.
+admission_type_categories,"admission_type in {'Emergency', 'Urgent', 'Elective'}",54966,0,PASS,All records satisfy assertion.
+medication_categories,medication in 5 approved pharmaceuticals,54966,0,PASS,All records satisfy assertion.
+test_results_categories,"test_results in {'Normal', 'Abnormal', 'Inconclusive'}",54966,0,PASS,All records satisfy assertion.
+age_group_categories,age_group in 5 standard demographic tiers,54966,0,PASS,All records satisfy assertion.
+age_range_plausibility,0 <= age <= 120,54966,0,PASS,All records satisfy assertion.
+no_direct_identifiers,'Name' and 'Doctor' dropped permanently,54966,0,PASS,All records satisfy assertion.
+row_count_reconciliation,raw_rows - exact_dupes == clean_rows,54966,0,PASS,"Raw: 55,500 - Dupes: 534 = Clean: 54,966"

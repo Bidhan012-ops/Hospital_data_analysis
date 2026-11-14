@@ -1,0 +1,4 @@
+test_results,n_admissions,total_billing,mean_billing,median_billing,share_of_total_billing_pct
+Abnormal,18437,470955375.92,25544.04,25602.59,33.54
+Inconclusive,18198,466548286.56,25637.34,25699.28,33.23
+Normal,18331,466564676.75,25452.22,25349.75,33.23

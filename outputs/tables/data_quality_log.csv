@@ -1,0 +1,12 @@
+issue,rows_affected,action,rationale
+Missing / Null values across all columns,0,Retained (No imputation needed),Dataset is 100% complete across all 15 source columns (zero missing values).
+Exact duplicate rows across all source columns,534,Dropped 534 exact duplicate rows,Identical duplicate records artificially inflate volume and distort clinical and financial metrics. First occurrence kept.
+Inconsistent whitespace and mixed casing in string attributes,55500,Trimmed leading/trailing spaces and standardized text formatting,Ensures clean categorical groupings and prevents string mismatch errors.
+Direct patient identifier in 'Name' column,55500,Generated salted SHA-256 12-char pseudonym 'patient_key'; dropped 'Name',Compliance with HIPAA and privacy standards; prevents direct patient re-identification while enabling multi-admission linkage.
+Direct provider identifier in 'Doctor' column,55500,"Mapped to deterministic pseudonymous 'doctor_id' (DR-001, DR-002, ...); dropped 'Doctor'",Protects physician privacy while preserving provider-level operational tracking.
+Unparsed string date fields in Date of Admission and Discharge Date,55500,Parsed with explicit format '%Y-%m-%d' and computed 'los_days',Standardizes temporal features into datetime objects; verified zero inverted stay anomalies.
+Biologically implausible age check (outside 0-120),0,Validated age bounds; derived canonical 'age_group' brackets,All patient ages strictly fall within 13 to 89 years; standardized into 5 clinical age brackets.
+Negative billing amounts and extreme statistical billing outliers,106,Flagged 106 rows with billing_outlier_flag = 1 (Retained),Negative values represent synthetic data artifacts or credit adjustments. Retained and explicitly flagged per non-deletion outlier policy to preserve auditability.
+Length of stay statistical outliers (1.5*IQR or |z| > 3),0,Evaluated and flagged with los_outlier_flag (Retained all),Stays are bounded between 1 and 30 days; no records exceed 3-sigma or 1.5*IQR bounds.
+"Near-duplicates (same patient_key, admission_date, and medical_condition)",9938,Flagged 9938 records with near_duplicate_flag = 1 (Retained),Near-duplicates may reflect intra-day facility transfers or duplicate test orders. Retained per non-silent-drop policy.
+Absence of native 30-day hospital readmission indicator,54966,Engineered derived 30-day readmission proxy and right-censoring eligibility flag,Provides standardized readmission rate calculation restricted to fully observed index stays.

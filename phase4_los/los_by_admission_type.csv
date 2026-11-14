@@ -1,0 +1,4 @@
+admission_type,n_admissions,alos_mean,los_median,los_iqr,los_std,bootstrap_ci_95_lower,bootstrap_ci_95_upper
+Elective,18473,15.51,15.0,15.0,8.65,15.39,15.63
+Emergency,18102,15.58,16.0,15.0,8.67,15.46,15.71
+Urgent,18391,15.4,15.0,15.0,8.67,15.28,15.52

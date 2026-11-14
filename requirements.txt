@@ -1,0 +1,17 @@
+# Hospital Patient Data Analysis & Dashboard Development
+# Core pinned dependencies (Python 3.10+)
+
+numpy==1.26.4
+pandas==2.2.1
+matplotlib==3.11.2
+seaborn==0.13.2
+scipy==1.17.1
+statsmodels==0.15.0
+nbformat==5.11.1
+nbclient==0.11.0
+ipykernel==7.4.0
+python-dateutil==2.9.0.post0
+python-dotenv==1.0.1
+streamlit>=1.30.0
+plotly>=5.18.0
+pyarrow<19

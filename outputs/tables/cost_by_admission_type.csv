@@ -1,0 +1,4 @@
+admission_type,n_admissions,total_billing,mean_billing,median_billing,share_of_total_billing_pct
+Elective,18473,473133056.18,25612.14,25674.74,33.7
+Emergency,18102,461697524.2,25505.33,25413.78,32.88
+Urgent,18391,469237758.85,25514.53,25543.56,33.42

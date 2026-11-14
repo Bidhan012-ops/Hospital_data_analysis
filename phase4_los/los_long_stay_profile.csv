@@ -1,0 +1,15 @@
+grouping_axis,category_level,total_admissions,long_stay_count,long_stay_share_pct
+medical_condition,Arthritis,9218,901,9.77
+medical_condition,Asthma,9095,986,10.84
+medical_condition,Cancer,9140,941,10.3
+medical_condition,Diabetes,9216,918,9.96
+medical_condition,Hypertension,9151,894,9.77
+medical_condition,Obesity,9146,891,9.74
+admission_type,Elective,18473,1883,10.19
+admission_type,Emergency,18102,1853,10.24
+admission_type,Urgent,18391,1795,9.76
+age_group,0-17,116,10,8.62
+age_group,18-34,13485,1343,9.96
+age_group,35-49,12154,1237,10.18
+age_group,50-64,12288,1234,10.04
+age_group,65+,16923,1707,10.09

@@ -1,0 +1,7 @@
+medical_condition,clinical_specialty_proxy,chronic_disease_flag,assumption_note
+Arthritis,Rheumatology,1,Specialty inferred from primary diagnosis per field availability matrix
+Asthma,Pulmonology,1,Specialty inferred from primary diagnosis per field availability matrix
+Cancer,Oncology,1,Specialty inferred from primary diagnosis per field availability matrix
+Diabetes,Endocrinology,1,Specialty inferred from primary diagnosis per field availability matrix
+Hypertension,Cardiology,1,Specialty inferred from primary diagnosis per field availability matrix
+Obesity,Bariatrics & Metabolism,1,Specialty inferred from primary diagnosis per field availability matrix

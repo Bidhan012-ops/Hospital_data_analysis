@@ -418,8 +418,8 @@ if st.session_state["portal_nav"] == "🏠 Portal Home":
         <div class="dash-card">
             <div class="dash-card-title">📈 Power BI Dashboard</div>
             <div class="dash-card-desc">
-                Access the 4-page Power BI executive dashboard specifications, download Star Schema 
-                fact & dimension CSVs, and copy ready-to-use DAX measure formulas.
+                Access the 4-page Power BI executive dashboard showcase, download the compiled .pbix 
+                report, export Star Schema fact & dimension CSVs, and copy production DAX measure formulas.
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -808,18 +808,49 @@ elif st.session_state["portal_nav"] == "📈 Power BI Dashboard":
     st.markdown('<div class="portal-title">Power BI Dashboard Hub. 📈</div>', unsafe_allow_html=True)
     st.markdown(
         '<div class="portal-subtitle">'
-        'Star Schema Architecture, Ready-to-Paste DAX Measure Catalog & 4-Page Blueprint.'
+        'Interactive 4-Page Executive Dashboard, Compiled .pbix Report & Star Schema Architecture.'
         '</div>',
         unsafe_allow_html=True
     )
     
-    st.markdown("""
-    <div class="synthetic-badge">
-        <span><strong>STAR SCHEMA MODEL</strong> | All Fact and Dimension tables have been generated and exported to <code>powerbi/</code>.</span>
-    </div>
-    """, unsafe_allow_html=True)
+    # Check for .pbix report file
+    pbix_filename = "Hospital_ desh_powerbi.pbix"
+    pbix_path = os.path.join("powerbi", pbix_filename)
+            
+    if os.path.exists(pbix_path):
+        pbix_size_mb = os.path.getsize(pbix_path) / (1024 * 1024)
+        with open(pbix_path, "rb") as f_pbix:
+            pbix_bytes = f_pbix.read()
+            
+        c_stat1, c_stat2 = st.columns([3, 1])
+        with c_stat1:
+            st.markdown(f"""
+            <div style="background: linear-gradient(90deg, #064E3B 0%, #065F46 100%); border: 1px solid #10B981; border-radius: 10px; padding: 14px 20px; margin-bottom: 1rem;">
+                <div style="font-weight: 700; color: #ECFDF5; font-size: 1.05rem; display: flex; align-items: center; gap: 8px;">
+                    <span>🟢 Production Power BI Report File (.pbix) Ready</span>
+                </div>
+                <div style="color: #A7F3D0; font-size: 0.85rem; margin-top: 4px;">
+                    <strong>File:</strong> <code>{pbix_filename}</code> ({pbix_size_mb:.2f} MB) | Multi-page executive BI report with Star Schema & custom Healthcare Light Theme.
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+        with c_stat2:
+            st.download_button(
+                label="⬇ Download Report (.pbix)",
+                data=pbix_bytes,
+                file_name="Hospital_ desh_powerbi.pbix",
+                mime="application/octet-stream",
+                key="dl_main_pbix_top",
+                use_container_width=True
+            )
+    else:
+        st.markdown("""
+        <div class="synthetic-badge">
+            <span><strong>STAR SCHEMA MODEL</strong> | All Fact and Dimension tables have been generated and exported to <code>powerbi/</code>.</span>
+        </div>
+        """, unsafe_allow_html=True)
     
-    # 4 Quick Action Cards
+    # 4 Quick Action Metric Cards
     c_p1, c_p2, c_p3, c_p4 = st.columns(4)
     with c_p1:
         st.markdown("""
@@ -841,31 +872,179 @@ elif st.session_state["portal_nav"] == "📈 Power BI Dashboard":
         st.markdown("""
         <div class="kpi-card">
             <div class="kpi-label">Core DAX Measures</div>
-            <div class="kpi-value">12 Formulas</div>
-            <div class="kpi-subtext">Volume, LOS, Cost, Readm</div>
+            <div class="kpi-value">16 Formulas</div>
+            <div class="kpi-subtext">Volume, LOS, Cost, Readm, Demo</div>
         </div>
         """, unsafe_allow_html=True)
     with c_p4:
-        st.markdown("""
+        st.markdown(f"""
         <div class="kpi-card">
-            <div class="kpi-label">Dashboard Pages</div>
+            <div class="kpi-label">Report Status</div>
             <div class="kpi-value">4 Pages</div>
-            <div class="kpi-subtext">Exec, Demo, Clin, Finance</div>
+            <div class="kpi-subtext">{'PBIX Compiled & Ready' if pbix_path else 'In Development'}</div>
         </div>
         """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # Tabs for Power BI specifications
-    pbi_tab1, pbi_tab2, pbi_tab3 = st.tabs([
-        "📥 Download Star Schema Tables",
-        "📐 DAX Measure Formulas",
-        "📑 4-Page Layout Specifications"
+    # Tabs for Power BI specifications & Showcase
+    pbi_tab1, pbi_tab2, pbi_tab3, pbi_tab4 = st.tabs([
+        "🖼️ Interactive 4-Page Report Showcase",
+        "📥 Download Report & Star Schema",
+        "📐 DAX Measure Catalog",
+        "🏗️ Data Architecture & Star Schema Model"
     ])
     
     with pbi_tab1:
-        st.subheader("Pre-Built Star Schema CSV Tables")
-        st.markdown("All tables are located in [`powerbi/`](file:///c:/Users/berab/OneDrive/Desktop/Hospital_data_analysis/powerbi/). You can download them directly below to load into Power BI Desktop:")
+        st.subheader("Executive Multi-Page Power BI Report Showcase")
+        st.markdown("Explore the 4 specialized executive dashboard views built inside the Power BI desktop report:")
+        
+        selected_page = st.radio(
+            "Select Dashboard View to Inspect:",
+            [
+                "📊 Page 1: Executive Overview",
+                "👥 Page 2: Patient Demographics",
+                "🩺 Page 3: Clinical & Diagnoses",
+                "💰 Page 4: Cost, Financials & Readmissions"
+            ],
+            horizontal=True
+        )
+        
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        if "Page 1" in selected_page:
+            p1_img = os.path.join("assets", "powerbi_screens", "page1_executive_overview.png")
+            if os.path.exists(p1_img):
+                st.image(p1_img, caption="Page 1: Executive Overview — Admissions Volume, ALOS, Revenue, Readmission Rate", use_container_width=True)
+            
+            c_meta1, c_meta2 = st.columns(2)
+            with c_meta1:
+                st.markdown("""
+                **🎯 Target Stakeholders**: Hospital Chief Executive Officer (CEO), Chief Operating Officer (COO), Board of Directors.
+                
+                **📌 Core KPI Summary Cards**:
+                * **Total Admissions**: `55K` (54,966 completed stays)
+                * **ALOS (Days)**: `15.50` days average inpatient stay
+                * **Total Billed Amount**: `$1.40B` gross billed charges
+                * **30-Day Readmission Rate**: `1.14%` (626 readmissions out of 54,966 eligible)
+                """)
+            with c_meta2:
+                st.markdown("""
+                **📊 Primary Visualizations**:
+                * **Monthly Admissions Trend (Area Chart)**: Tracks volume trajectory across calendar years 2019 to 2024.
+                * **Admissions by Urgency Level (Donut Chart)**: Balanced intake mix (~33.6% Elective, 33.5% Urgent, 32.9% Emergency).
+                * **Weekday Intake Census (Column Chart)**: Daily admission loads across Mon–Sun demonstrating continuous admissions.
+                """)
+                
+        elif "Page 2" in selected_page:
+            p2_img = os.path.join("assets", "powerbi_screens", "page2_patient_demographics.png")
+            if os.path.exists(p2_img):
+                st.image(p2_img, caption="Page 2: Patient Demographics — Age Cohorts, Gender Balance, Blood Type Distribution", use_container_width=True)
+                
+            c_meta1, c_meta2 = st.columns(2)
+            with c_meta1:
+                st.markdown("""
+                **🎯 Target Stakeholders**: Population Health Directors, Community Outreach Teams, Capacity Planners.
+                
+                **📌 Core Demographic Benchmarks**:
+                * **Unique Patients**: `40,235` distinct individuals
+                * **Senior Share (65+)**: `30.1%` (16,559 admissions) — largest geriatric cohort
+                * **Pediatric Share (0-17)**: `4.6%` (2,534 admissions)
+                * **Gender Balance**: `50.0% Female` / `50.0% Male` (Mann-Whitney U $p = 0.3205$)
+                """)
+            with c_meta2:
+                st.markdown("""
+                **📊 Primary Visualizations**:
+                * **Age Bracket Distribution by Gender (Clustered Bar Chart)**: Compares male vs female intake across 5 standard brackets.
+                * **Admission Urgency Mix by Age Group (100% Stacked Bar)**: Proportion of Emergency vs Elective stays by cohort.
+                * **Blood Group Distribution (Horizontal Bar)**: Even representation across all 8 ABO/Rh blood groups (~12.5% each).
+                """)
+
+        elif "Page 3" in selected_page:
+            p3_img = os.path.join("assets", "powerbi_screens", "page3_clinical_diagnoses.png")
+            if os.path.exists(p3_img):
+                st.image(p3_img, caption="Page 3: Clinical & Diagnoses — Condition Prevalence, Prescribed Medications, Test Outcomes", use_container_width=True)
+                
+            c_meta1, c_meta2 = st.columns(2)
+            with c_meta1:
+                st.markdown("""
+                **🎯 Target Stakeholders**: Chief Medical Officer (CMO), Pharmacy & Therapeutics Committee, Diagnostic Quality Directors.
+                
+                **📌 Clinical Insights**:
+                * **6 Chronic Conditions**: Arthritis (9,218), Diabetes (9,216), Hypertension (9,151), Obesity (9,146), Cancer (9,140), Asthma (9,095).
+                * **Medication Utilization**: 5 core inpatient pharmaceuticals tracked evenly (~10,900 to 11,050 courses each).
+                * **Uniform ALOS**: Condition-level length of stay consistently averages ~15.5 days across all diagnoses.
+                """)
+            with c_meta2:
+                st.markdown("""
+                **📊 Primary Visualizations**:
+                * **Prevalence by Condition (Column Chart)**: Inpatient volume comparison across the 6 major disease categories.
+                * **Medication Utilization (Treemap)**: Prescription breakdown across Lipitor, Aspirin, Ibuprofen, Paracetamol, and Penicillin.
+                * **Diagnostic Test Outcomes (100% Stacked Bar)**: Normal, Abnormal, and Inconclusive laboratory splits by diagnosis.
+                * **ALOS by Medical Condition (Horizontal Bar)**: Mean stay duration per diagnostic category.
+                """)
+
+        elif "Page 4" in selected_page:
+            p4_img = os.path.join("assets", "powerbi_screens", "page4_cost_financials.png")
+            if os.path.exists(p4_img):
+                st.image(p4_img, caption="Page 4: Cost, Financials & Readmissions — Payer Revenue, Financial Matrix, 30-Day Readmissions", use_container_width=True)
+                
+            c_meta1, c_meta2 = st.columns(2)
+            with c_meta1:
+                st.markdown("""
+                **🎯 Target Stakeholders**: Chief Financial Officer (CFO), Revenue Cycle Management, Managed Care Contracting.
+                
+                **📌 Financial & Quality Metrics**:
+                * **Gross Billed Charges**: `$1,404,057,758` ($1.40 Billion)
+                * **Average Billed per Stay**: `$25,544.31`
+                * **Payer Distribution**: 5 major payers (Cigna, Medicare, Blue Cross, UnitedHealthcare, Aetna) each representing ~$277M–$286M.
+                * **30-Day Readmission Rate**: Baseline rate of `1.14%` (Emergency slightly elevated at ~1.3%).
+                """)
+            with c_meta2:
+                st.markdown("""
+                **📊 Primary Visualizations**:
+                * **Billed Revenue by Insurance Payer (Column Chart)**: Total billing captured across private and public insurers.
+                * **Financial & Quality Scorecard (Matrix Table)**: Condition-level admissions, average billing, high cost share (5%), and readmission rate.
+                * **30-Day Readmission Rate by Urgency (Column Chart)**: Compares readmission probability across Emergency, Elective, and Urgent intakes.
+                * **Stay Duration vs Billed Revenue (Scatter Plot)**: Correlation inspection between length of stay and total hospital charges.
+                """)
+
+    with pbi_tab2:
+        st.subheader("Download Power BI Artifacts & Star Schema Tables")
+        st.markdown("All pre-configured report deliverables and underlying clean dimension tables are available for one-click download:")
+        
+        # Power BI Files Section
+        st.markdown("#### 1. Compiled Power BI Report & Custom Themes")
+        col_f1, col_f2 = st.columns(2)
+        
+        if os.path.exists(pbix_path):
+            with col_f1:
+                st.markdown(f"**`{pbix_filename}`** — *Completed 4-page Power BI Desktop report with all relationships, measures, and visuals*")
+                st.download_button(
+                    "⬇ Download Completed Report (.pbix)",
+                    data=pbix_bytes,
+                    file_name="Hospital_ desh_powerbi.pbix",
+                    mime="application/octet-stream",
+                    key="dl_tab_pbix"
+                )
+        
+        theme_light_path = os.path.join("powerbi", "Healthcare_Executive_Light_Theme.json")
+        if os.path.exists(theme_light_path):
+            with open(theme_light_path, "rb") as f_theme:
+                theme_light_bytes = f_theme.read()
+            with col_f2:
+                st.markdown("**`Healthcare_Executive_Light_Theme.json`** — *Custom enterprise palette (Navy `#0F172A`, Slate `#334155`, rounded corners `10px`)*")
+                st.download_button(
+                    "⬇ Download Light Theme (.json)",
+                    data=theme_light_bytes,
+                    file_name="Healthcare_Executive_Light_Theme.json",
+                    mime="application/json",
+                    key="dl_theme_light"
+                )
+                
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("#### 2. Star Schema Ingestion Tables (CSV)")
+        st.markdown("Ready-to-ingest CSV tables exported from data processing pipeline:")
         
         d_col1, d_col2 = st.columns(2)
         tables = [
@@ -890,44 +1069,60 @@ elif st.session_state["portal_nav"] == "📈 Power BI Dashboard":
                         data=file_data,
                         file_name=tbl_name,
                         mime="text/csv",
-                        key=f"dl_{tbl_name}"
+                        key=f"dl_star_{tbl_name}"
                     )
                     st.markdown("<br>", unsafe_allow_html=True)
 
-    with pbi_tab2:
-        st.subheader("Core DAX Measures (Ready to Copy & Paste)")
-        st.markdown("Create a table named `_Measures` in Power BI, then copy and paste these formulas:")
-        
-        st.markdown("**1. Volume Measures**")
-        st.code("Total Admissions = COUNTROWS(Fact_Admissions)", language="dax")
-        st.code("Unique Patients = DISTINCTCOUNT(Fact_Admissions[patient_key])", language="dax")
-        
-        st.markdown("**2. Length of Stay Measures**")
-        st.code("ALOS (Days) = AVERAGE(Fact_Admissions[los_days])", language="dax")
-        st.code("Median LOS = MEDIAN(Fact_Admissions[los_days])", language="dax")
-        st.code("Long Stay % = DIVIDE(CALCULATE(COUNTROWS(Fact_Admissions), Fact_Admissions[long_stay_flag] = 1), [Total Admissions], 0)", language="dax")
-        
-        st.markdown("**3. Financial Measures**")
-        st.code("Total Billed Amount = SUM(Fact_Admissions[billing_amount])", language="dax")
-        st.code("Avg Billed per Admission = AVERAGE(Fact_Admissions[billing_amount])", language="dax")
-        st.code("Avg Cost per Day = AVERAGE(Fact_Admissions[cost_per_day])", language="dax")
-        st.code("High Cost % = DIVIDE(CALCULATE(COUNTROWS(Fact_Admissions), Fact_Admissions[high_cost_flag] = 1), [Total Admissions], 0)", language="dax")
-        
-        st.markdown("**4. 30-Day Readmission Measures**")
-        st.code("Eligible Stays = CALCULATE(COUNTROWS(Fact_Admissions), Fact_Admissions[readmission_eligible] = 1)", language="dax")
-        st.code("30-Day Readmission Rate % = DIVIDE(CALCULATE(SUM(Fact_Admissions[readmitted_30d]), Fact_Admissions[readmission_eligible] = 1), [Eligible Stays], 0)", language="dax")
-
     with pbi_tab3:
-        st.subheader("4-Page Executive Dashboard Blueprint")
+        st.subheader("Core DAX Measures Catalog (Ready to Copy & Paste)")
+        st.markdown("All 16 production DAX measures implemented in the `_Measures` table:")
+        
+        dax_col1, dax_col2 = st.columns(2)
+        with dax_col1:
+            st.markdown("**1. Volume & Census Measures**")
+            st.code("Total Admissions = COUNTROWS(Fact_Admissions)", language="dax")
+            st.code("Unique Patients = DISTINCTCOUNT(Fact_Admissions[patient_key])", language="dax")
+            
+            st.markdown("**2. Length of Stay (LOS) Measures**")
+            st.code("ALOS (Days) = AVERAGE(Fact_Admissions[los_days])", language="dax")
+            st.code("Median LOS = MEDIAN(Fact_Admissions[los_days])", language="dax")
+            st.code("Long Stay Admissions = CALCULATE(COUNTROWS(Fact_Admissions), Fact_Admissions[long_stay_flag] = 1)", language="dax")
+            st.code("Long Stay % = DIVIDE([Long Stay Admissions], [Total Admissions], 0)", language="dax")
+            
+            st.markdown("**3. Demographic Cohort Measures**")
+            st.code("Avg Patient Age = AVERAGE(Dim_Patient[age])", language="dax")
+            st.code("Senior Share % = DIVIDE(CALCULATE(COUNTROWS(Fact_Admissions), Dim_Patient[age_group] = \"65+\"), COUNTROWS(Fact_Admissions), 0)", language="dax")
+            st.code("Pediatric Share % = DIVIDE(CALCULATE(COUNTROWS(Fact_Admissions), Dim_Patient[age_group] = \"0-17\"), COUNTROWS(Fact_Admissions), 0)", language="dax")
+            st.code("Female Share % = DIVIDE(CALCULATE(COUNTROWS(Fact_Admissions), Dim_Patient[gender] = \"Female\"), COUNTROWS(Fact_Admissions), 0)", language="dax")
+
+        with dax_col2:
+            st.markdown("**4. Financial & Revenue Cycle Measures**")
+            st.code("Total Billed Amount = SUM(Fact_Admissions[billing_amount])", language="dax")
+            st.code("Avg Billed per Admission = AVERAGE(Fact_Admissions[billing_amount])", language="dax")
+            st.code("Avg Cost per Day = AVERAGE(Fact_Admissions[cost_per_day])", language="dax")
+            st.code("High Cost Admissions = CALCULATE(COUNTROWS(Fact_Admissions), Fact_Admissions[high_cost_flag] = 1)", language="dax")
+            st.code("High Cost % = DIVIDE([High Cost Admissions], [Total Admissions], 0)", language="dax")
+            
+            st.markdown("**5. Quality & 30-Day Readmission Measures**")
+            st.code("Eligible Stays = CALCULATE(COUNTROWS(Fact_Admissions), Fact_Admissions[readmission_eligible] = 1)", language="dax")
+            st.code("30-Day Readmissions = CALCULATE(SUM(Fact_Admissions[readmitted_30d]), Fact_Admissions[readmission_eligible] = 1)", language="dax")
+            st.code("30-Day Readmission Rate % = DIVIDE([30-Day Readmissions], [Eligible Stays], 0)", language="dax")
+
+    with pbi_tab4:
+        st.subheader("Data Model Architecture & Relationship Schema")
         st.markdown("""
-        * **Page 1: Executive Overview**:
-          * KPI Cards: `[Total Admissions]`, `[ALOS (Days)]`, `[Total Billed Amount]`, `[30-Day Readmission Rate %]`.
-          * Visuals: Monthly admissions trend line, Urgency donut chart, Weekday census distribution.
-        * **Page 2: Patient Demographics**:
-          * Visuals: Age bracket histogram, Age bracket by gender clustered bar chart, Blood type bars, Urgency mix by age group 100% stacked bar.
-        * **Page 3: Clinical & Diagnoses**:
-          * Visuals: Primary condition horizontal bars, Test results by diagnosis stacked bar, Prescribed medications treemap, ALOS by diagnosis bar.
-        * **Page 4: Cost & 30-Day Readmissions**:
-          * Visuals: Payer revenue clustered bar chart, Stay duration vs billing scatter plot, 30-day readmission rate by urgency column chart, Condition risk scorecard table.
+        The Power BI model follows a strict **Star Schema (Kimball Methodology)**.
+        All 5 dimension tables filter the central `Fact_Admissions` table via **1-to-Many (`1:*`) relationships with Single Cross-Filter direction**:
         """)
-        st.info("📖 For the full technical tutorial with screenshots and relationship configuration, open [docs/powerbi_guide.md](file:///c:/Users/berab/OneDrive/Desktop/Hospital_data_analysis/docs/powerbi_guide.md).")
+        
+        schema_df = pd.DataFrame([
+            {"Dimension Table": "Dim_Date", "Primary Key": "date_key", "Fact Foreign Key": "admission_date_key", "Cardinality": "1 to Many (1:*)", "Cross-Filter": "Single"},
+            {"Dimension Table": "Dim_Patient", "Primary Key": "patient_key", "Fact Foreign Key": "patient_key", "Cardinality": "1 to Many (1:*)", "Cross-Filter": "Single"},
+            {"Dimension Table": "Dim_Doctor", "Primary Key": "doctor_id", "Fact Foreign Key": "doctor_id", "Cardinality": "1 to Many (1:*)", "Cross-Filter": "Single"},
+            {"Dimension Table": "Dim_Hospital", "Primary Key": "hospital", "Fact Foreign Key": "hospital", "Cardinality": "1 to Many (1:*)", "Cross-Filter": "Single"},
+            {"Dimension Table": "Dim_Condition", "Primary Key": "medical_condition", "Fact Foreign Key": "medical_condition", "Cardinality": "1 to Many (1:*)", "Cross-Filter": "Single"},
+        ])
+        st.dataframe(schema_df, hide_index=True, use_container_width=True)
+        
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.info("📖 For comprehensive technical documentation, step-by-step ingestion walkthroughs, and design blueprints, consult [docs/powerbi_guide.md](file:///c:/Users/berab/OneDrive/Desktop/Hospital_data_analysis/docs/powerbi_guide.md).")

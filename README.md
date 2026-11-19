@@ -118,10 +118,10 @@ A dark-themed, multi-page web application running locally via `streamlit run app
   * **Persistent Storage**: Connected to a local SQLite database (`data/hospital_analytics.db`).
   * **Dynamic Sidebar Filters**: Date range slider, admission urgency, diagnosis, and insurance provider multi-selects.
   * **5 Dedicated Tabs**: Overview, Demographics, Clinical & Diagnoses, Cost & Readmissions, and Interactive Inpatient Data Explorer with CSV download.
-* **📈 Power BI Dashboard Hub**: Specifications, direct download buttons for all 6 Star Schema tables, and DAX formula repository.
+* **📈 Power BI Dashboard Hub**: Interactive 4-page showcase with screenshots, direct download for the compiled `.pbix` report, Star Schema CSV tables, and production DAX measure catalog.
 
-### B. Power BI Star Schema Dashboard
-An executive 4-page business intelligence report built in Microsoft Power BI Desktop:
+### B. Power BI Star Schema Dashboard (.pbix)
+An executive 4-page business intelligence report built in Microsoft Power BI Desktop (available in `powerbi/Hospital_ desh_powerbi.pbix`):
 * **Page 1: Executive Overview** (KPI cards, monthly admissions trend, urgency donut, weekday intake).
 * **Page 2: Patient Demographics Profile** (Age pyramid, gender split, blood type distribution, urgency mix).
 * **Page 3: Clinical Diagnoses & Outcomes** (Diagnosis prevalence, test results stacked bars, medications treemap).
@@ -145,7 +145,9 @@ Hospital_data_analysis/
 │   ├── 03_eda.ipynb                # Descriptive statistics, volume trends & demographic profiling
 │   ├── 04_los_analysis.ipynb       # Length of stay distributions, bootstrapping & hypothesis tests
 │   └── 05_cost_analysis.ipynb      # Financial analytics, payer breakdown & cost-LOS decoupling
-├── powerbi/                        # Pre-engineered Star Schema tables for Power BI Desktop
+├── powerbi/                        # Pre-engineered Star Schema & compiled Power BI report
+│   ├── Hospital_ desh_powerbi.pbix # Completed 4-page Power BI executive desktop report
+│   ├── Healthcare_Executive_Light_Theme.json # Custom healthcare design system palette
 │   ├── Fact_Admissions.csv         # Core inpatient admissions fact table (54,966 rows)
 │   ├── Dim_Date.csv                # Continuous calendar dimension (2019-2024)
 │   ├── Dim_Patient.csv             # 40,235 unique patients with age brackets
@@ -252,9 +254,8 @@ python src/powerbi_export.py
 ```
 
 ### 5. Open & Explore in Power BI Desktop
-1. Open **Power BI Desktop**.
-2. Click **Get Data → Text/CSV** and select the 6 pre-built tables from `powerbi/`.
-3. Follow the visual layout blueprints and copy-paste DAX formulas in [docs/powerbi_guide.md](docs/powerbi_guide.md).
+* **Option A (Instant Open)**: Double-click `powerbi/Hospital_ desh_powerbi.pbix` in Power BI Desktop to inspect the fully built, 4-page interactive report.
+* **Option B (Build from Scratch)**: Open Power BI Desktop, click **Get Data → Text/CSV**, ingest the 6 tables from `powerbi/`, and follow the visual blueprints and DAX formulas in [docs/powerbi_guide.md](docs/powerbi_guide.md).
 
 ---
 
